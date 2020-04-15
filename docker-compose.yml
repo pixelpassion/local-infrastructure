@@ -1,0 +1,41 @@
+version: "3.2"
+
+volumes:
+  # Persist data, even when container shuts down
+  postgres_data: {}
+  redis_data: {}
+
+services:
+  postgres:
+    build: ./postgres
+    restart: on-failure
+    container_name: ${PROJECT_NAME}_postgres
+    image: ${PROJECT_NAME}_postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+    command: -c fsync=off -c synchronous_commit=off -c full_page_writes=off
+    ports:
+      - 5432
+    # Remove network isolation between the container and the Docker host, the port is accessible on localhost directly 
+    network_mode: host
+
+  redis:
+    restart: on-failure
+    container_name: ${PROJECT_NAME}_redis
+    image: ${PROJECT_NAME}_redis
+    build:
+      context: ./redis
+    volumes:
+      - redis_data:/data
+    ports:
+      - 6379:6379
+    networks:
+      redis-network:
+
+networks:
+  redis-network:
+      driver: bridge
+
