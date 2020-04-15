@@ -48,13 +48,13 @@ redis-logs: ## Show logs of Redis container
 ##########################
 
 up: ## Start the Docker containers
-	docker-compose up
+	docker-compose up -d
 
 down: ## Stop the Docker containers
 	docker-compose down
 
 up-build: ## Start the Docker container
-	docker-compose up --build redis postgres
+	docker-compose up -d --build redis postgres
 
 docker-events: ## Show events from Docker
 	docker events --since 60m
