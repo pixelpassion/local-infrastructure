@@ -32,5 +32,5 @@ psql -h localhost -U postgres -d postgres -c "CREATE DATABASE $DATABASE_NAME;" |
 psql -h localhost -U postgres -d postgres -c "CREATE USER $DATABASE_NAME WITH PASSWORD 'secret' SUPERUSER;" || exit 1
 psql -h localhost -U postgres -d postgres -c "GRANT ALL PRIVILEGES ON DATABASE $DATABASE_NAME TO $DATABASE_NAME;" || exit 1
 echo ""
-echo "Done! You can now use DATABASE_URL=postgresql://$DATABASE_NAME:secret@postgres/$DATABASE_NAME"
+echo "Done! You can now use DATABASE_URL=postgres://$DATABASE_NAME:secret@localhost/$DATABASE_NAME"
 
